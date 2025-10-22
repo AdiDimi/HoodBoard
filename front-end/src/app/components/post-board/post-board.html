@@ -1,0 +1,31 @@
+@if (loading()) {
+<p>Loading ads…</p>
+} @else if (error()) {
+<p class="error">{{ error() }}</p>
+} @else {
+<div class="masonry">
+  @for (p of ads(); track p.id) {
+  <app-post-card
+    [title]="p.title || ''"
+    [category]="p.category || ''"
+    [location]="p.location?.address || ''"
+    [author]="p.contact?.name || ''"
+    [body]="p.body || ''"
+    [image]="p.photos?.[0]?.thumbUrl || p.photos?.[0]?.url || ''"
+    [adId]="p.id || ''"
+    [dir]="dirFor(p)"
+    [contactName]="p.contact?.name || ''"
+    (onEdit)="onEditPostClicked($event)"
+    (onDelete)="onDeletePostClicked($event)"
+  />
+  }
+</div>
+
+<app-pagination
+  [currentPage]="currentPage()"
+  [totalPages]="totalPages()"
+  [totalItems]="totalItems()"
+  [pageSize]="pageSize"
+  (onPageChange)="onPageChange($event)"
+/>
+}

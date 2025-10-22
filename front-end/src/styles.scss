@@ -1,0 +1,58 @@
+/* Global styles */
+@layer reset, base, components, utilities;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+  }
+}
+
+@layer base {
+  :root {
+    --bg: #f5f6f7;
+    --text: #222;
+    --muted: #6b7280;
+    --accent: #ff9800;
+    --card: #fff;
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    --container: 1200px;
+  }
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, Noto Sans, 'Apple Color Emoji',
+      'Segoe UI Emoji';
+    color: var(--text);
+    background: var(--bg);
+  }
+  .container {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  .toolbar {
+    background: #fff7ea;
+    border-block: 1px solid #ffe1b3;
+    padding: 12px 0;
+  }
+}
+
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}

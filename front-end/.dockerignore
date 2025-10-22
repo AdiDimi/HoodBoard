@@ -1,0 +1,43 @@
+# Node modules
+node_modules
+npm-debug.log*
+
+# Build outputs
+dist
+.angular
+
+# Development files
+.vscode
+.idea
+*.log
+
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs
+
+# Test files
+coverage
+*.spec.ts
+*.test.ts
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Generated API files (will be regenerated if needed)
+src/app/models/generated
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

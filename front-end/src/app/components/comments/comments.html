@@ -1,0 +1,38 @@
+<section class="comments">
+  <h4>Comments</h4>
+  @if (loading()) {
+  <p class="muted">Loading…</p>
+  } @else if (error()) {
+  <p class="error">{{ error() }}</p>
+  } @else { @if (comments().length === 0) {
+  <p class="muted">No comments yet.</p>
+  } @else {
+  <ul class="list">
+    @for (c of comments(); track c.id) {
+    <li class="item">
+      <div class="head">
+        <span class="author">{{ c.authorName || 'Anonymous' }}</span>
+        <span class="date">{{ c.createdAt }}</span>
+      </div>
+      <p class="text">{{ c.text }}</p>
+    </li>
+    }
+  </ul>
+  } }
+
+  <div class="composer">
+    <textarea
+      rows="2"
+      placeholder="Write a comment…"
+      [(ngModel)]="newText"
+      [disabled]="posting()"
+    ></textarea>
+    <button
+      (click)="postComment()"
+      [disabled]="posting() || !newText().trim()"
+      [title]="posting() ? 'Posting...' : 'Post comment'"
+    >
+      {{ posting() ? 'Posting...' : 'Post' }}
+    </button>
+  </div>
+</section>

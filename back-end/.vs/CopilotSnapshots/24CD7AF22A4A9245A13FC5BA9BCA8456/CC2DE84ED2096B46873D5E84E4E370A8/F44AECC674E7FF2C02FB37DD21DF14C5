@@ -1,0 +1,83 @@
+﻿using System.Reflection;
+using AdsApi.Endpoints;
+using AdsApi.Infrastructure.Logging;
+using AdsApi.Middleware;
+using AdsApi.Repositories;
+using AdsApi.Services;
+using AdsApi.Validation;
+using FluentValidation;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Logging (Serilog + sampling)
+builder.AddStructuredLogging();
+
+// Swagger / OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new() { Title = "Ads API", Version = "v1" });
+    var xml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xml);
+    if (File.Exists(xmlPath)) options.IncludeXmlComments(xmlPath);
+});
+
+// FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<CreateAdDtoValidator>();
+
+// CORS - allow Angular dev server
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Repo & services
+builder.Services.AddAdsRepository(builder.Configuration);
+builder.Services.AddSingleton<AdService>();
+builder.Services.AddSingleton<IPhotoService, PhotoService>();
+builder.Services.AddSingleton<ICommentService, CommentService>();
+
+// Error handling
+builder.Services.AddProblemDetails();
+
+var app = builder.Build();
+
+// Error middleware
+app.UseGlobalErrorHandler();
+
+// Request logging + correlation
+app.UseStructuredRequestLogging();
+
+// Enable CORS
+app.UseCors("AllowAngularDev");
+
+// Static files for uploads
+app.UseStaticFiles();
+
+// Swagger UI
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ads API v1");
+    c.RoutePrefix = string.Empty;
+});
+
+// Validation filter on /api
+var api = app.MapGroup("/api");
+api.AddEndpointFilter(new ValidationFilter(app.Services));
+
+// Map endpoints
+app.MapAdsEndpoints();
+// Health
+app.MapHealthChecks();
+
+// Initialize repository
+await app.InitializeAdsRepositoryAsync();
+
+app.Run();

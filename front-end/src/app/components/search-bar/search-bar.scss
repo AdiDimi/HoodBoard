@@ -1,0 +1,32 @@
+.search {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.icon {
+  font-size: 20px;
+  opacity: 0.8;
+}
+input {
+  height: 42px;
+  padding: 0 12px;
+  border: 2px solid #ffc86b;
+  border-radius: 6px;
+  outline: none;
+  background: #fff;
+}
+.go {
+  height: 42px;
+  padding: 0 16px;
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: lowercase;
+  font-weight: 700;
+}
+.go:hover {
+  filter: brightness(0.95);
+}

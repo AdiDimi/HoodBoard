@@ -1,0 +1,37 @@
+@if (showPagination) {
+<div class="pagination">
+  <div class="pagination-info">
+    <span class="items-info">
+      Showing {{ startItem }}-{{ endItem }} of {{ totalItems() }} items
+    </span>
+  </div>
+
+  <div class="pagination-controls">
+    <button
+      class="page-btn prev-btn"
+      (click)="previousPage()"
+      [disabled]="currentPage() === 1"
+      title="Previous page"
+    >
+      ← Previous
+    </button>
+
+    @for (page of pageNumbers; track page) { @if (page === -1) {
+    <span class="ellipsis">...</span>
+    } @else {
+    <button class="page-btn" [class.active]="page === currentPage()" (click)="goToPage(page)">
+      {{ page }}
+    </button>
+    } }
+
+    <button
+      class="page-btn next-btn"
+      (click)="nextPage()"
+      [disabled]="currentPage() === totalPages()"
+      title="Next page"
+    >
+      Next →
+    </button>
+  </div>
+</div>
+}

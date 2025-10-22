@@ -1,0 +1,99 @@
+{
+  "ads": [
+    {
+      "id": "A1001",
+      "title": "Used Mountain Bike - Excellent Condition",
+      "body": "Trek 4300, aluminum frame, 21 gears. Lightly used and well maintained.",
+      "category": "Sports",
+      "price": 950,
+      "tags": [
+        "bike",
+        "mountain",
+        "sport"
+      ],
+      "location": {
+        "lat": 32.0853,
+        "lng": 34.7818,
+        "address": "Tel Aviv"
+      },
+      "contact": {
+        "name": "David Levi",
+        "email": "david@example.com",
+        "phone": "+972501234567"
+      },
+      "comments": [
+        {
+          "id": "C001",
+          "authorName": "Tom",
+          "text": "Is it still available?",
+          "createdAt": "2025-10-21T09:52:06.084047"
+        }
+      ],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084056",
+      "updatedAt": "2025-10-21T09:52:06.084057"
+    },
+    {
+      "id": "A1002",
+      "title": "3-Room Apartment for Rent in Haifa",
+      "body": "Bright and spacious apartment, sea view, includes parking and storage.",
+      "category": "Real Estate",
+      "price": 4800,
+      "tags": [
+        "apartment",
+        "haifa",
+        "rent"
+      ],
+      "location": {
+        "lat": 32.794,
+        "lng": 34.9896,
+        "address": "Haifa"
+      },
+      "contact": {
+        "name": "Rina Cohen",
+        "email": "rina@example.com",
+        "phone": "+972544567890"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084059",
+      "updatedAt": "2025-10-21T09:52:06.084060"
+    },
+    {
+      "id": "A1003",
+      "title": "iPhone 14 Pro 256GB - Like New",
+      "body": "One-month-old iPhone 14 Pro, silver, includes case and original box.",
+      "category": "Electronics",
+      "price": 3800,
+      "tags": [
+        "iphone",
+        "mobile",
+        "apple"
+      ],
+      "location": {
+        "lat": 31.7683,
+        "lng": 35.2137,
+        "address": "Jerusalem"
+      },
+      "contact": {
+        "name": "Eyal Bar",
+        "email": "eyal@example.com",
+        "phone": "+972502223334"
+      },
+      "comments": [
+        {
+          "id": "C002",
+          "authorName": "Maya",
+          "text": "Any scratches?",
+          "createdAt": "2025-10-21T09:52:06.084062"
+        }
+      ],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084063",
+      "updatedAt": "2025-10-21T09:52:06.084064"
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "ads": [
+    {
+      "id": "748db9f353ee4e4ea5a5cb036d4e51aa",
+      "title": "post 3",
+      "body": "post 3",
+      "category": "Electronics",
+      "price": 1000,
+      "tags": [],
+      "location": null,
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": false,
+      "createdAt": "2025-10-22T18:03:27.5756341+00:00",
+      "updatedAt": "2025-10-22T18:03:45.2820682+00:00"
+    },
+    {
+      "id": "0c44c789617e4e8282e45c45e7f18c19",
+      "title": "post 2",
+      "body": "post 2",
+      "category": "Furniture",
+      "price": null,
+      "tags": [
+        "tag1",
+        "tag3"
+      ],
+      "location": {
+        "lat": 0,
+        "lng": 0,
+        "address": "Bear-Sheva"
+      },
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-22T18:02:55.5133127+00:00",
+      "updatedAt": "2025-10-22T18:02:55.5133131+00:00"
+    },
+    {
+      "id": "18add78a3f49459697574579fd1cee5a",
+      "title": "post 1",
+      "body": "post 1",
+      "category": "Electronics",
+      "price": 212,
+      "tags": [],
+      "location": {
+        "lat": 0,
+        "lng": 0,
+        "address": "Tel Aviv"
+      },
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-22T18:02:35.9362021+00:00",
+      "updatedAt": "2025-10-22T18:02:35.9362022+00:00"
+    },
+    {
+      "id": "e24ec186b9ab4121a26a8194e704cb79",
+      "title": "Good Stuff",
+      "body": "dsfdsdfsdf",
+      "category": "Sports",
+      "price": 15000,
+      "tags": [],
+      "location": {
+        "lat": 0,
+        "lng": 0,
+        "address": "Bear-Sheva"
+      },
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-22T17:38:14.1423567+00:00",
+      "updatedAt": "2025-10-22T17:38:14.1423567+00:00"
+    },
+    {
+      "id": "e88f2ba54e0b4d288f7f51d387045f20",
+      "title": "Good Stuff",
+      "body": "blaa bldsdsd after editing 23",
+      "category": "Sports",
+      "price": 12000,
+      "tags": [
+        "tag1",
+        "tag3"
+      ],
+      "location": {
+        "lat": 0,
+        "lng": 0,
+        "address": "Bear-Sheva"
+      },
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-22T17:35:38.432218+00:00",
+      "updatedAt": "2025-10-22T17:38:45.8103839+00:00"
+    },
+    {
+      "id": "72f3cb1e4ec446b3a5f10e847790d0ce",
+      "title": "Good stuff",
+      "body": "my new item after editing",
+      "category": "Sports",
+      "price": 12000,
+      "tags": [
+        "tag1",
+        "tag3"
+      ],
+      "location": {
+        "lat": 0,
+        "lng": 0,
+        "address": "Bear-Sheva"
+      },
+      "contact": {
+        "name": "Adi Dimi",
+        "email": "adidimi@example.com",
+        "phone": "\u002B972529213125"
+      },
+      "comments": [
+        {
+          "id": "929f874e27df4942977332931a0fd199",
+          "authorName": "Adi Dimi",
+          "text": "aaaaa",
+          "createdAt": "2025-10-22T17:19:44.5960928+00:00"
+        }
+      ],
+      "photos": [],
+      "isActive": false,
+      "createdAt": "2025-10-22T17:11:10.3607848+00:00",
+      "updatedAt": "2025-10-22T17:35:01.0891208+00:00"
+    },
+    {
+      "id": "A1003",
+      "title": "iPhone 14 Pro 256GB - Like New",
+      "body": "One-month-old iPhone 14 Pro, silver, includes case and original box.",
+      "category": "Electronics",
+      "price": 3800,
+      "tags": [
+        "iphone",
+        "mobile",
+        "apple"
+      ],
+      "location": {
+        "lat": 31.7683,
+        "lng": 35.2137,
+        "address": "Jerusalem"
+      },
+      "contact": {
+        "name": "Eyal Bar",
+        "email": "eyal@example.com",
+        "phone": "\u002B972502223334"
+      },
+      "comments": [
+        {
+          "id": "C002",
+          "authorName": "Maya",
+          "text": "Any scratches?",
+          "createdAt": "2025-10-21T09:52:06.084062+00:00"
+        }
+      ],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084063+00:00",
+      "updatedAt": "2025-10-21T09:52:06.084064+00:00"
+    },
+    {
+      "id": "A1002",
+      "title": "3-Room Apartment for Rent in Haifa",
+      "body": "Bright and spacious apartment, sea view, includes parking and storage.",
+      "category": "Real Estate",
+      "price": 4800,
+      "tags": [
+        "apartment",
+        "haifa",
+        "rent"
+      ],
+      "location": {
+        "lat": 32.794,
+        "lng": 34.9896,
+        "address": "Haifa"
+      },
+      "contact": {
+        "name": "Rina Cohen",
+        "email": "rina@example.com",
+        "phone": "\u002B972544567890"
+      },
+      "comments": [
+        {
+          "id": "c44963bd575642d9a718dad9b0df31ec",
+          "authorName": "Adi Dimi",
+          "text": "adi",
+          "createdAt": "2025-10-22T16:50:22.5081805+00:00"
+        },
+        {
+          "id": "421a5d234c1442eba268bef8261ca50d",
+          "authorName": "Adi Dimi",
+          "text": "test comment 2",
+          "createdAt": "2025-10-22T16:55:11.3209969+00:00"
+        }
+      ],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084059+00:00",
+      "updatedAt": "2025-10-22T16:55:11.3209983+00:00"
+    },
+    {
+      "id": "A1001",
+      "title": "Used Mountain Bike - Excellent Condition",
+      "body": "Trek 4300, aluminum frame, 21 gears. Lightly used and well maintained.",
+      "category": "Sports",
+      "price": 950,
+      "tags": [
+        "bike",
+        "mountain",
+        "sport"
+      ],
+      "location": {
+        "lat": 32.0853,
+        "lng": 34.7818,
+        "address": "Tel Aviv"
+      },
+      "contact": {
+        "name": "David Levi",
+        "email": "david@example.com",
+        "phone": "\u002B972501234567"
+      },
+      "comments": [
+        {
+          "id": "C001",
+          "authorName": "Tom",
+          "text": "Is it still available?",
+          "createdAt": "2025-10-21T09:52:06.084047+00:00"
+        }
+      ],
+      "photos": [],
+      "isActive": true,
+      "createdAt": "2025-10-21T09:52:06.084056+00:00",
+      "updatedAt": "2025-10-21T09:52:06.084057+00:00"
+    }
+  ]
+}

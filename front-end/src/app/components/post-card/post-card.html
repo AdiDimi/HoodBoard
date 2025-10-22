@@ -1,0 +1,33 @@
+<article class="card" [attr.dir]="dir">
+  <header class="card__header">
+    <div class="header-left">
+      <span class="badge">{{ category }}</span>
+      <span class="meta">around {{ location }}</span>
+    </div>
+    @if (canEdit) {
+    <div class="action-buttons">
+      <button class="edit-btn" (click)="editPost()" title="Edit post">
+        <span class="edit-icon">✏️</span>
+      </button>
+      <button class="delete-btn" (click)="deletePost()" title="Delete post">
+        <span class="delete-icon">🗑️</span>
+      </button>
+    </div>
+    }
+  </header>
+  <section class="card__body">
+    <h3 class="card__title">{{ title }}</h3>
+    @if (image) {
+    <img [src]="image" alt="" />
+    }
+    <p class="text">{{ body }}</p>
+  </section>
+  @if (author) {
+  <footer class="card__footer">
+    <span class="avatar" aria-hidden="true">👤</span>
+    <span class="by">{{ author }}</span>
+  </footer>
+  } @if (adId) {
+  <app-comments [adId]="adId!" />
+  }
+</article>

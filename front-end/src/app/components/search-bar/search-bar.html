@@ -1,0 +1,10 @@
+<div class="search">
+  <span class="icon" aria-hidden="true">📍</span>
+  <input
+    type="text"
+    [(ngModel)]="query"
+    placeholder="TYPE SOMETHING TO SEARCH FOR POSTS (Title, Description, Category)..."
+    (keyup.enter)="emitSearch()"
+  />
+  <button class="go" (click)="emitSearch()">go</button>
+</div>

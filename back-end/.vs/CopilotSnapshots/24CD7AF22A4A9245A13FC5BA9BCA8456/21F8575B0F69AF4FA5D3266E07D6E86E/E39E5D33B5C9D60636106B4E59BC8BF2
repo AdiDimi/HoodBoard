@@ -1,0 +1,27 @@
+﻿{
+  "Ads": {
+    "Repository": {
+      "Mode": "RedisJson",
+      "RedisConnection": "redis:6379",
+      "IdempotencyTtlSeconds": 600,
+      "UseOutboxWriter": true,
+      "OutboxLockTtlSeconds": 30
+    }
+  },
+  "Logging": {
+    "Sampling": {
+      "InfoSuccessRate": 0.10
+    }
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "Microsoft.AspNetCore": "Warning",
+        "System": "Warning",
+        "StackExchange.Redis": "Warning"
+      }
+    }
+  }
+}

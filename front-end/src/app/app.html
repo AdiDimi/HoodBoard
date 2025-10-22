@@ -1,0 +1,27 @@
+<app-header (onCreatePost)="onCreatePost()" />
+<section class="toolbar">
+  <div class="container">
+    <app-search-bar (search)="onSearch($event)" />
+  </div>
+</section>
+
+@if (showCreateForm() || editingAd()) {
+<section class="create-form-overlay">
+  <div class="container">
+    <app-new-post-form
+      [editAd]="editingAd()"
+      (onAdCreated)="onAdCreated($event)"
+      (onAdUpdated)="onAdUpdated($event)"
+      (onCancel)="onCancelForm()"
+    />
+  </div>
+</section>
+}
+
+<section class="board container">
+  <app-post-board
+    [query]="query()"
+    (onEditPost)="onEditPost($event)"
+    (onDeletePost)="onDeletePost($event)"
+  />
+</section>

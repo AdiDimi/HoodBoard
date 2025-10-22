@@ -1,0 +1,96 @@
+<div class="new-post-form">
+  <div class="form-header">
+    <h2>{{ formTitle }}</h2>
+    <button type="button" class="close-btn" (click)="cancel()">×</button>
+  </div>
+
+  @if (error()) {
+  <div class="error-message">{{ error() }}</div>
+  }
+
+  <form (ngSubmit)="submitForm()" class="form-content">
+    <div class="form-row">
+      <label for="title">Title *</label>
+      <input
+        id="title"
+        type="text"
+        [(ngModel)]="title"
+        name="title"
+        placeholder="What are you selling?"
+        required
+        [disabled]="posting()"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="body">Description</label>
+      <textarea
+        id="body"
+        [(ngModel)]="body"
+        name="body"
+        placeholder="Describe your item..."
+        rows="4"
+        [disabled]="posting()"
+      ></textarea>
+    </div>
+
+    <div class="form-row">
+      <label for="category">Category</label>
+      <select id="category" [(ngModel)]="category" name="category" [disabled]="posting()">
+        <option value="">Select category</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Books">Books</option>
+        <option value="Sports">Sports</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="price">Price (₪)</label>
+      <input
+        id="price"
+        type="number"
+        [(ngModel)]="price"
+        name="price"
+        placeholder="0"
+        min="0"
+        [disabled]="posting()"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="address">Location</label>
+      <input
+        id="address"
+        type="text"
+        [(ngModel)]="address"
+        name="address"
+        placeholder="City, neighborhood..."
+        [disabled]="posting()"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="tags">Tags</label>
+      <input
+        id="tags"
+        type="text"
+        [(ngModel)]="tags"
+        name="tags"
+        placeholder="tag1, tag2, tag3..."
+        [disabled]="posting()"
+      />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" (click)="cancel()" [disabled]="posting()">
+        Cancel
+      </button>
+      <button type="submit" class="submit-btn" [disabled]="posting() || !title().trim()">
+        {{ submitButtonText }}
+      </button>
+    </div>
+  </form>
+</div>

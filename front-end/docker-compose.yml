@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Angular frontend application
+  hood-board-frontend:
+    build: .
+    ports:
+      - '4200:80'
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    networks:
+      - hood-board-network
+
+  # Backend API (placeholder - customize for your backend)
+  backend:
+    # Replace with your actual backend image
+    image: your-backend-image:latest
+    ports:
+      - '8080:8080'
+    environment:
+      - DATABASE_URL=your-database-url
+      - API_KEY=your-api-key
+    networks:
+      - hood-board-network
+
+networks:
+  hood-board-network:
+    driver: bridge
+
+# Optional: Add volumes for persistent data
+volumes:
+  database-data:

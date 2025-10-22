@@ -1,0 +1,9 @@
+bin/
+obj/
+.vscode/
+.vs/
+*.user
+*.swp
+*.swo
+logs/
+node_modules/
