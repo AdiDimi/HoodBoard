@@ -1,43 +1,68 @@
-# Node modules
-node_modules
+# Node modules and package files
+node_modules/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.yarn/
 
 # Build outputs
-dist
-.angular
+dist/
+build/
+.angular/
+.next/
 
 # Development files
-.vscode
-.idea
+.vscode/
+.idea/
 *.log
+.angular-devkit/
 
 # Git
-.git
+.git/
 .gitignore
 
 # Documentation
 *.md
-docs
+README*
+docs/
 
 # Test files
-coverage
+coverage/
+.nyc_output/
 *.spec.ts
 *.test.ts
+e2e/
+cypress/
 
 # Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
 # Generated API files (will be regenerated if needed)
-src/app/models/generated
+src/app/models/generated/
 
 # OS files
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # Temporary files
 *.tmp
 *.temp
+.cache/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Angular specific
+.angular/cache/
+
+# Docker files (avoid recursive inclusion)
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Source maps in production
+*.map

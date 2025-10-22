@@ -1,9 +1,58 @@
+# Build artifacts
 bin/
 obj/
+out/
+
+# IDE and editor files
 .vscode/
 .vs/
+.idea/
 *.user
+*.suo
+*.sdf
 *.swp
 *.swo
+
+# Logs and temporary files
 logs/
+*.log
+*.tmp
+*.temp
+
+# Package managers
 node_modules/
+packages/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+README*
+docs/
+
+# Test files
+TestResults/
+coverage/
+*.trx
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Development and build cache
+.dotnet/
+.nuget/
+.sonarqube/
+
+# Docker files (avoid recursive inclusion)
+Dockerfile*
+docker-compose*
+.dockerignore
