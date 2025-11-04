@@ -30,19 +30,26 @@ public static class AdRepositoryExtensions
 
         if (settings.Mode == RepositoryMode.RedisJson)
         {
-            services.AddSingleton<IConnectionMultiplexer>(sp => {
-                return ConnectionMultiplexer.Connect(settings.RedisConnection ?? "localhost:6379");
-            });
-
-            services.AddSingleton<IAdRepository>(sp => {
-                var mux = sp.GetRequiredService<IConnectionMultiplexer>();
-                var opts = sp.GetRequiredService<IOptions<AdsRepositorySettings>>();
-                return new AdRedisJsonRepository(mux, opts);
-            });
-
-            if (settings.UseOutboxWriter)
+            // Try to connect to Redis; if it fails, fall back to in-memory repository so app can run locally without Redis.
+            try
             {
-                services.AddHostedService<AdsApi.Workers.OutboxWriter>();
+                var mux = ConnectionMultiplexer.Connect(settings.RedisConnection ?? "localhost:6379");
+                services.AddSingleton<IConnectionMultiplexer>(sp => mux);
+
+                services.AddSingleton<IAdRepository>(sp => {
+                    var opts = sp.GetRequiredService<IOptions<AdsRepositorySettings>>();
+                    return new AdRedisJsonRepository(mux, opts);
+                });
+
+                if (settings.UseOutboxWriter)
+                {
+                    services.AddHostedService<AdsApi.Workers.OutboxWriter>();
+                }
+            }
+            catch
+            {
+                // fallback to in-memory repository
+                services.AddSingleton<IAdRepository, InMemoryAdRepository>();
             }
         }
         else

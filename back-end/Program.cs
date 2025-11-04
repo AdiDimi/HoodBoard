@@ -16,14 +16,14 @@ builder.AddStructuredLogging();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new() { Title = "Ads API", Version = "v1" });
+    options.SwaggerDoc("v1", new() { Title = "Products API", Version = "v1" });
     var xml = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xml);
     if (File.Exists(xmlPath)) options.IncludeXmlComments(xmlPath);
 });
 
 // FluentValidation
-builder.Services.AddValidatorsFromAssemblyContaining<CreateAdDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDtoValidator>();
 
 // CORS - allow Angular dev server
 builder.Services.AddCors(options =>
@@ -39,9 +39,8 @@ builder.Services.AddCors(options =>
 
 // Repo & services
 builder.Services.AddAdsRepository(builder.Configuration);
-builder.Services.AddSingleton<AdService>();
+builder.Services.AddSingleton<ProductService>();
 builder.Services.AddSingleton<IPhotoService, PhotoService>();
-builder.Services.AddSingleton<ICommentService, CommentService>();
 
 // Error handling
 builder.Services.AddProblemDetails();
@@ -64,7 +63,7 @@ app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ads API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Products API v1");
     c.RoutePrefix = string.Empty;
 });
 
@@ -73,7 +72,7 @@ var api = app.MapGroup("/api");
 api.AddEndpointFilter(new ValidationFilter(app.Services));
 
 // Map endpoints
-app.MapAdsEndpoints();
+app.MapProductsEndpoints();
 // Health
 app.MapHealthChecks();
 

@@ -2,16 +2,15 @@ using FluentValidation;
 
 namespace AdsApi.Validation;
 
-public class UpdateAdDtoValidator : AbstractValidator<AdsApi.UpdateAdDto>
+public class UpdateProductDtoValidator : AbstractValidator<AdsApi.UpdateProductDto>
 {
-    public UpdateAdDtoValidator()
+    public UpdateProductDtoValidator()
     {
-        When(x => x.Title != null, () => RuleFor(x => x.Title!).Length(3, 120));
-        When(x => x.Body != null, () => RuleFor(x => x.Body!).MaximumLength(5000));
+        When(x => x.Name != null, () => RuleFor(x => x.Name!).Length(3, 120));
+        When(x => x.Description != null, () => RuleFor(x => x.Description!).MaximumLength(5000));
         When(x => x.Category != null, () => RuleFor(x => x.Category!).MaximumLength(50));
         When(x => x.Price != null, () => RuleFor(x => x.Price!.Value).GreaterThanOrEqualTo(0));
-        RuleForEach(x => x.Tags).MaximumLength(30);
-        When(x => x.Contact != null, () => RuleFor(x => x.Contact!).SetValidator(new ContactDtoValidator()!));
-        When(x => x.Location != null, () => RuleFor(x => x.Location!).SetValidator(new LocationDtoValidator()!));
+        When(x => x.Stock != null, () => RuleFor(x => x.Stock!.Value).GreaterThanOrEqualTo(0));
+        When(x => x.ImageUrl != null, () => RuleFor(x => x.ImageUrl!).MaximumLength(1000));
     }
 }

@@ -10,7 +10,7 @@ public sealed class OutboxWriter : BackgroundService
 {
     private readonly IDatabase _db;
     private readonly ILogger<OutboxWriter> _log;
-    private readonly string _stream = "ads-outbox";
+    private readonly string _stream = "products-outbox";
     private readonly string _group  = "writer";
     private readonly string _consumer = Environment.MachineName + "-" + Guid.NewGuid().ToString("N")[..6];
     private readonly string _jsonPath;
@@ -22,7 +22,7 @@ public sealed class OutboxWriter : BackgroundService
     {
         _db = mux.GetDatabase();
         _log = log;
-        _jsonPath = Path.Combine(env.ContentRootPath, "Data", "ads.json");
+        _jsonPath = Path.Combine(env.ContentRootPath, "Data", "products.json");
         Directory.CreateDirectory(Path.GetDirectoryName(_jsonPath)!);
         _lockTtlSeconds = opts?.Value?.OutboxLockTtlSeconds > 0 ? opts.Value.OutboxLockTtlSeconds : 30;
         _lockTtl = TimeSpan.FromSeconds(_lockTtlSeconds);
@@ -52,9 +52,9 @@ public sealed class OutboxWriter : BackgroundService
                         if (pending.Count > 0)
                         {
                             var swFlush = Stopwatch.StartNew();
-                            var ads = await LoadAllAdsFromRedisJson();
+                            var products = await LoadAllProductsFromRedisJson();
                             // Attempt to acquire distributed lock and write
-                            var wrote = await TryWriteWithLockAsync(ads, stoppingToken);
+                            var wrote = await TryWriteWithLockAsync(products, stoppingToken);
                             if (wrote)
                             {
                                 foreach (var e in pending) await _db.StreamAcknowledgeAsync(_stream, _group, e.Id);
@@ -78,8 +78,8 @@ public sealed class OutboxWriter : BackgroundService
 
             if (pending.Count > 0)
             {
-                var ads = await LoadAllAdsFromRedisJson();
-                var wrote = await TryWriteWithLockAsync(ads, stoppingToken);
+                var products = await LoadAllProductsFromRedisJson();
+                var wrote = await TryWriteWithLockAsync(products, stoppingToken);
                 if (wrote)
                 {
                     foreach (var e in pending) await _db.StreamAcknowledgeAsync(_stream, _group, e.Id);
@@ -94,9 +94,9 @@ public sealed class OutboxWriter : BackgroundService
         }
     }
 
-    private async Task<bool> TryWriteWithLockAsync(List<Ad> ads, CancellationToken ct)
+    private async Task<bool> TryWriteWithLockAsync(List<Product> products, CancellationToken ct)
     {
-        var lockKey = "ads:json:lock";
+        var lockKey = "products:json:lock";
         var token = Guid.NewGuid().ToString("N");
         var maxWait = TimeSpan.FromSeconds(10);
         var sw = Stopwatch.StartNew();
@@ -112,7 +112,7 @@ public sealed class OutboxWriter : BackgroundService
                     try
                     {
                         var tmp = _jsonPath + $".{_consumer}.tmp";
-                        await using (var fs = File.Create(tmp)) await System.Text.Json.JsonSerializer.SerializeAsync(fs, new { ads }, _json, ct);
+                        await using (var fs = File.Create(tmp)) await System.Text.Json.JsonSerializer.SerializeAsync(fs, new { products }, _json, ct);
                         // Replace target atomically
                         File.Replace(tmp, _jsonPath, null, true);
                         return true;
@@ -136,19 +136,19 @@ public sealed class OutboxWriter : BackgroundService
         return false;
     }
 
-    private async Task<List<Ad>> LoadAllAdsFromRedisJson()
+    private async Task<List<Product>> LoadAllProductsFromRedisJson()
     {
-        var ids = (await _db.SetMembersAsync("ads:index")).Select(v => (string)v).ToArray();
+        var ids = (await _db.SetMembersAsync("products:index")).Select(v => (string)v).ToArray();
         if (ids.Length == 0) return new();
-        var keys = ids.Select(id => (RedisKey)$"ads:{id}").ToArray();
+        var keys = ids.Select(id => (RedisKey)$"products:{id}").ToArray();
         var res = await _db.JsonMGetAsync(keys, "$");
-        var list = new List<Ad>(ids.Length);
+        var list = new List<Product>(ids.Length);
         foreach (var item in (RedisResult[])res!)
         {
             if (item.IsNull) continue;
             using var doc = JsonDocument.Parse((string)item!);
             var elem = doc.RootElement[0].GetRawText();
-            list.Add(System.Text.Json.JsonSerializer.Deserialize<Ad>(elem, _json)!);
+            list.Add(System.Text.Json.JsonSerializer.Deserialize<Product>(elem, _json)!);
         }
         return list.OrderByDescending(a => a.CreatedAt).ToList();
     }

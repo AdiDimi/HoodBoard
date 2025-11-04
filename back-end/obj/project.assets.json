@@ -2058,11 +2058,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\USER\\Downloads\\AdsApi_full_with_seed\\AdsApi.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Downloads\\AdsPostsProject\\back-end\\AdsApi.csproj",
       "projectName": "AdsApi",
-      "projectPath": "C:\\Users\\USER\\Downloads\\AdsApi_full_with_seed\\AdsApi.csproj",
+      "projectPath": "C:\\Users\\USER\\Downloads\\AdsPostsProject\\back-end\\AdsApi.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\USER\\Downloads\\AdsApi_full_with_seed\\obj\\",
+      "outputPath": "C:\\Users\\USER\\Downloads\\AdsPostsProject\\back-end\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
-using static AdsApi.Endpoints.AdsEndpoints;
 
 namespace AdsApi.Repositories;
 
@@ -23,7 +22,7 @@ public static class HealthCheckExtensions
                 var latency = await db.PingAsync();
                 details["redis"] = new { status = "ok", latency = latency.TotalMilliseconds };
                 await context.Response.WriteAsJsonAsync(new { status = "healthy", details });
-               
+
             }
             catch (Exception ex)
             {
@@ -31,7 +30,7 @@ public static class HealthCheckExtensions
                 context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
                 await context.Response.WriteAsJsonAsync(new { status = "unhealthy", details });
             }
-           
+
         })
         .WithName("HealthCheck")
         .WithSummary("Checks API and Redis connectivity")

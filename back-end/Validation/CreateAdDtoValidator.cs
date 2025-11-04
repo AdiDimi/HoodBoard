@@ -2,16 +2,15 @@ using FluentValidation;
 
 namespace AdsApi.Validation;
 
-public class CreateAdDtoValidator : AbstractValidator<AdsApi.CreateAdDto>
+public class CreateProductDtoValidator : AbstractValidator<AdsApi.CreateProductDto>
 {
-    public CreateAdDtoValidator()
+    public CreateProductDtoValidator()
     {
-        RuleFor(x => x.Title).NotEmpty().Length(3, 120);
-        RuleFor(x => x.Body).NotEmpty().MaximumLength(5000);
+        RuleFor(x => x.Name).NotEmpty().Length(3, 120);
+        RuleFor(x => x.Description).NotEmpty().MaximumLength(5000);
         RuleFor(x => x.Category).MaximumLength(50).When(x => x.Category != null);
         RuleFor(x => x.Price).GreaterThanOrEqualTo(0).When(x => x.Price.HasValue);
-        RuleForEach(x => x.Tags).NotEmpty().MaximumLength(30);
-        When(x => x.Contact != null, () => RuleFor(x => x.Contact!).SetValidator(new ContactDtoValidator()!));
-        When(x => x.Location != null, () => RuleFor(x => x.Location!).SetValidator(new LocationDtoValidator()!));
+        RuleFor(x => x.Stock).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.ImageUrl).MaximumLength(1000).When(x => x.ImageUrl != null);
     }
 }

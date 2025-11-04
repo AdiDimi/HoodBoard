@@ -1,27 +1,21 @@
 namespace AdsApi;
 
-public record LocationDto(double Lat, double Lng, string? Address);
-public record ContactDto(string? Name, string? Email, string? Phone);
+public record PhotoDto(string FileName, string Url);
 
-public record CreateAdDto(
-    string Title,
-    string Body,
+public record CreateProductDto(
+    string Name,
+    string Description,
     string? Category,
     decimal? Price,
-    string[]? Tags,
-    LocationDto? Location,
-    ContactDto? Contact
+    int Stock,
+    string? ImageUrl
 );
 
-public record UpdateAdDto(
-    string? Title,
-    string? Body,
+public record UpdateProductDto(
+    string? Name,
+    string? Description,
     string? Category,
     decimal? Price,
-    string[]? Tags,
-    LocationDto? Location,
-    ContactDto? Contact,
-    bool? IsActive
+    int? Stock,
+    string? ImageUrl
 );
-
-public record CreateCommentDto(string AuthorName, string Text);
