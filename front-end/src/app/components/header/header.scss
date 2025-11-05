@@ -120,9 +120,17 @@
     font-size: 0.75rem;
   }
 
-  .desktop-only { display: none; }
-  .mobile-only { display: block; }
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
 
-  .title-row { justify-content: center; }
-  .title-row .mobile-only { margin-right: 0.25rem; }
+  .title-row {
+    justify-content: center;
+  }
+  .title-row .mobile-only {
+    margin-right: 0.25rem;
+  }
 }

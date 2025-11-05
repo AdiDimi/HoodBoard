@@ -28,6 +28,10 @@ export class ProductCardComponent {
     return `$${price.toFixed(2)}`;
   }
 
+  get imgUrl(): string {
+    const imageUrl = 'https://' + (this.product.imageUrl ?? '');
+    return imageUrl;
+  }
   get stockStatus(): 'low' | 'in' | 'out' {
     const stock = this.product.stock ?? 0;
     if (stock <= 0) return 'out';

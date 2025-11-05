@@ -3,7 +3,12 @@
     <div class="header-content">
       <div class="title-section">
         <div class="title-row">
-          <button class="mobile-only" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open menu">
+          <button
+            class="mobile-only"
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Open menu"
+          >
             <mat-icon>menu</mat-icon>
           </button>
           <h1 class="title">
@@ -23,7 +28,7 @@
           Export XLSX
         </button>
       </div>
-      
+
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="createPost()">
           <mat-icon>add</mat-icon>
