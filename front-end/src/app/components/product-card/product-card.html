@@ -1,0 +1,29 @@
+<article class="product-card">
+  <div class="media">
+    <img [src]="product.imageUrl" [alt]="product.name" />
+  </div>
+  <div class="content">
+    <h3 class="name">{{ product.name }}</h3>
+    <div class="meta-row">
+      <span class="category">{{ product.category }}</span>
+      <span class="price">{{ priceLabel }}</span>
+    </div>
+    <p class="desc">{{ product.description }}</p>
+
+    <div class="actions">
+      <span
+        class="stock"
+        [class.low]="stockStatus === 'low'"
+        [class.out]="stockStatus === 'out'"
+        [class.in]="stockStatus === 'in'"
+      >
+        @switch (stockStatus) { @case ('out') { Out of Stock } @case ('low') { Low Stock } @default
+        { In Stock } }
+      </span>
+      <div class="buttons">
+        <button type="button" class="btn edit" (click)="onEdit()">Edit</button>
+        <button type="button" class="btn delete" (click)="onDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</article>

@@ -3,7 +3,7 @@
   <input
     type="text"
     [(ngModel)]="query"
-    placeholder="TYPE SOMETHING TO SEARCH FOR POSTS (Title, Description, Category)..."
+    placeholder="Search products by name or category…"
     (keyup.enter)="emitSearch()"
   />
   <button class="go" (click)="emitSearch()">go</button>

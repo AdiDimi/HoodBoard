@@ -7,9 +7,14 @@ import { Component, output } from '@angular/core';
   styleUrl: './header.scss',
 })
 export class Header {
-  onCreatePost = output<void>();
+  onAddProduct = output<void>();
+  onExport = output<void>();
 
   createPost() {
-    this.onCreatePost.emit();
+    this.onAddProduct.emit();
+  }
+
+  exportXlsx() {
+    this.onExport.emit();
   }
 }

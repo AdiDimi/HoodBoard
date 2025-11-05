@@ -1,27 +1,27 @@
-<app-header (onCreatePost)="onCreatePost()" />
+<app-header (onAddProduct)="onAddProduct()" (onExport)="exportXlsx()" />
 <section class="toolbar">
   <div class="container">
     <app-search-bar (search)="onSearch($event)" />
   </div>
 </section>
 
-@if (showCreateForm() || editingAd()) {
+@if (showCreateForm() || editingProduct()) {
 <section class="create-form-overlay">
   <div class="container">
-    <app-new-post-form
-      [editAd]="editingAd()"
-      (onAdCreated)="onAdCreated($event)"
-      (onAdUpdated)="onAdUpdated($event)"
-      (onCancel)="onCancelForm()"
+    <app-product-form-modal
+      [product]="editingProduct()"
+      (created)="onProductCreated($event)"
+      (updated)="onProductUpdated($event)"
+      (close)="onCancelForm()"
     />
   </div>
 </section>
 }
 
 <section class="board container">
-  <app-post-board
+  <app-product-board
     [query]="query()"
-    (onEditPost)="onEditPost($event)"
-    (onDeletePost)="onDeletePost($event)"
+    (onEdit)="onEditProduct($event)"
+    (onDelete)="onDeleteProduct($event)"
   />
 </section>

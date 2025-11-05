@@ -1,0 +1,39 @@
+<section class="filters container">
+  <div class="controls">
+    <select
+      class="select"
+      [ngModel]="category()"
+      (ngModelChange)="category.set($event); onCategoryChange()"
+    >
+      @for (c of categories(); track c) {
+      <option [ngValue]="c">{{ c }}</option>
+      }
+    </select>
+    <select class="select" [ngModel]="sort()" (ngModelChange)="sort.set($event); onSortChange()">
+      <option value="">Sort</option>
+      <option value="price:asc">Price: Low → High</option>
+      <option value="price:desc">Price: High → Low</option>
+      <option value="category:asc">Category A → Z</option>
+    </select>
+  </div>
+</section>
+
+@if (loading()) {
+<p class="container">Loading products…</p>
+} @else if (error()) {
+<p class="container error">{{ error() }}</p>
+} @else {
+<div class="grid container">
+  @for (p of products(); track p.id) {
+  <app-product-card [product]="p" (edit)="onEdit.emit($event)" (delete)="onDelete.emit($event)" />
+  }
+</div>
+
+<app-pagination
+  [currentPage]="currentPage()"
+  [totalPages]="totalPages()"
+  [totalItems]="totalItems()"
+  [pageSize]="pageSize"
+  (onPageChange)="onPageChange($event)"
+/>
+}

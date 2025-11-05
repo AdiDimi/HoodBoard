@@ -1,0 +1,58 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <header class="modal__header">
+      <h2>{{ title }}</h2>
+      <button type="button" class="icon" (click)="close.emit()">✕</button>
+    </header>
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="row">
+        <label>Name</label>
+        <input type="text" formControlName="name" />
+        @if (form.controls.name.touched && form.controls.name.errors?.['required']) {
+        <small class="error">Name is required</small>
+        }
+      </div>
+      <div class="row">
+        <label>Description</label>
+        <textarea rows="3" formControlName="description"></textarea>
+      </div>
+      <div class="row grid-2">
+        <div>
+          <label>Price</label>
+          <input type="number" step="0.01" formControlName="price" />
+          @if (form.controls.price.touched && form.controls.price.errors) {
+          <small class="error">Price must be greater than 0</small>
+          }
+        </div>
+        <div>
+          <label>Stock</label>
+          <input type="number" formControlName="stock" />
+          @if (form.controls.stock.touched && form.controls.stock.errors) {
+          <small class="error">Stock can't be negative</small>
+          }
+        </div>
+      </div>
+      <div class="row grid-2">
+        <div>
+          <label>Category</label>
+          <input type="text" formControlName="category" />
+        </div>
+        <div>
+          <label>Image URL</label>
+          <input type="url" formControlName="imageUrl" />
+        </div>
+      </div>
+
+      @if (error()) {
+      <p class="error">{{ error() }}</p>
+      }
+
+      <footer class="actions">
+        <button type="button" class="btn" (click)="close.emit()">Cancel</button>
+        <button type="submit" class="btn primary" [disabled]="submitting() || form.invalid">
+          {{ submitting() ? (product ? 'Saving…' : 'Creating…') : product ? 'Save' : 'Create' }}
+        </button>
+      </footer>
+    </form>
+  </div>
+</div>

@@ -1,28 +1,28 @@
 .search {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
 }
 .icon {
-  font-size: 20px;
+  font-size: 1.25rem;
   opacity: 0.8;
 }
 input {
-  height: 42px;
-  padding: 0 12px;
-  border: 2px solid #ffc86b;
-  border-radius: 6px;
+  height: 2.625rem;
+  padding: 0 0.75rem;
+  border: 0.125rem solid #ffc86b;
+  border-radius: 0.375rem;
   outline: none;
   background: #fff;
 }
 .go {
-  height: 42px;
-  padding: 0 16px;
+  height: 2.625rem;
+  padding: 0 1rem;
   background: #ff9800;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   cursor: pointer;
   text-transform: lowercase;
   font-weight: 700;

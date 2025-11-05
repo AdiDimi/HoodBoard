@@ -6,6 +6,7 @@ import {
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { apiHeadersInterceptor } from './interceptors/api-headers.interceptor';
+import { BASE_PATH } from './models/generated/variables';
 import { httpCachingInterceptor } from './interceptors/http-caching.interceptor';
 import { notModifiedInterceptor } from './interceptors/not-modified.interceptor';
 import { debugInterceptor } from './interceptors/debug.interceptor';
@@ -15,12 +16,15 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withInterceptors([debugInterceptor])),
-    // Temporarily disable complex interceptors to debug
-    // withInterceptors([
-    //   apiHeadersInterceptor,
-    //   httpCachingInterceptor,
-    //   notModifiedInterceptor
-    // ]),
+    provideHttpClient(
+      withInterceptors([
+        debugInterceptor,
+        apiHeadersInterceptor,
+        httpCachingInterceptor,
+        notModifiedInterceptor,
+      ])
+    ),
+    // Point generated API clients to relative base path so Angular proxy forwards to backend
+    { provide: BASE_PATH, useValue: '' },
   ],
 };

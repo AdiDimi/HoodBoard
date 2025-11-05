@@ -24,7 +24,7 @@
     --accent: #ff9800;
     --card: #fff;
     --shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-    --container: 1200px;
+    --container: 75rem; /* 1200px */
   }
   body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, Noto Sans, 'Apple Color Emoji',
@@ -35,12 +35,12 @@
   .container {
     max-width: var(--container);
     margin-inline: auto;
-    padding-inline: 16px;
+    padding-inline: 1rem;
   }
   .toolbar {
     background: #fff7ea;
-    border-block: 1px solid #ffe1b3;
-    padding: 12px 0;
+    border-block: 0.0625rem solid #ffe1b3; /* 1px */
+    padding: 0.75rem 0; /* 12px */
   }
 }
 
