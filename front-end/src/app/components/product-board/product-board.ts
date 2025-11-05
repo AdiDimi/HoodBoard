@@ -48,7 +48,7 @@ export class ProductBoardComponent {
       // When query changes reset to page 1
       const q = this.query();
       this.currentPage.set(1);
-      this.fetch({ q, page: 1 });
+      this.fetch({ q, pageNum: 1 });
     });
   }
 
@@ -56,7 +56,7 @@ export class ProductBoardComponent {
     return this.products();
   }
 
-  private fetch({ q, page = 1 }: { q?: string; page?: number }) {
+  private fetch({ q, pageNum = 1 }: { q?: string; pageNum?: number }) {
     this.loading.set(true);
     this.error.set(null);
 
@@ -65,12 +65,9 @@ export class ProductBoardComponent {
     const apiCategory = category && category !== 'All Categories' ? category : undefined;
 
     this.productsSvc
-      .apiProductsGet({ q, category: apiCategory, sort, page, pageSize: this.pageSize })
+      .apiProductsGet({ q, category: apiCategory, sort, page: pageNum, pageSize: this.pageSize })
       .subscribe({
-        next: (res: {
-          data?: Product[] | null;
-          meta?: { totalCount?: number; totalPages?: number } | null;
-        }) => {
+        next: (res: { data?: Product[] | null; meta?: { total?: number; page?: number; pageSize?: number } | null; }) => {
           let data = res.data ?? [];
           const qstr = (this.query() || '').toLowerCase().trim();
           if (qstr) {
@@ -99,7 +96,6 @@ export class ProductBoardComponent {
             });
           }
           this.products.set(data);
-          this.currentPage.set(page);
 
           // derive categories for filter once
           if (!this.categories().length) {
@@ -108,14 +104,14 @@ export class ProductBoardComponent {
             this.categories.set(['All Categories', ...Array.from(set).sort()]);
           }
 
-          if (res.meta) {
-            this.totalItems.set(res.meta.totalCount ?? data.length);
-            this.totalPages.set(res.meta.totalPages ?? 1);
-          } else {
-            const totalCount = data.length;
-            this.totalItems.set(totalCount);
-            this.totalPages.set(Math.max(1, Math.ceil(totalCount / this.pageSize)));
-          }
+          const meta = res.meta ?? {};
+          const total = (meta as any).total ?? data.length;
+          const serverPage = (meta as any).page ?? pageNum;
+          const serverPageSize = (meta as any).pageSize ?? this.pageSize;
+          this.pageSize = serverPageSize;
+          this.totalItems.set(total);
+          this.totalPages.set(Math.max(1, Math.ceil(total / serverPageSize)));
+          this.currentPage.set(serverPage);
           this.loading.set(false);
         },
         error: (err: any) => {
@@ -127,17 +123,17 @@ export class ProductBoardComponent {
 
   onPageChange(page: number) {
     if (page >= 1 && page <= this.totalPages()) {
-      this.fetch({ q: this.query(), page });
+      this.fetch({ q: this.query(), pageNum: page });
     }
   }
 
   onCategoryChange() {
     this.currentPage.set(1);
-    this.fetch({ q: this.query(), page: 1 });
+    this.fetch({ q: this.query(), pageNum: 1 });
   }
 
   onSortChange() {
     this.currentPage.set(1);
-    this.fetch({ q: this.query(), page: 1 });
+    this.fetch({ q: this.query(), pageNum: 1 });
   }
 }

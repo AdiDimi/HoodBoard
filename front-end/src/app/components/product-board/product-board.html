@@ -21,6 +21,11 @@
   </div>
 </section>
 
+<div class="container results-info">
+  Showing {{ products().length }} of {{ totalItems() }} products
+  
+</div>
+
 @if (loading()) {
 <p class="container">Loading products…</p>
 } @else if (error()) {

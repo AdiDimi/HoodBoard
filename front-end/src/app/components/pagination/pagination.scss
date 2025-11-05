@@ -1,23 +1,10 @@
 .pagination {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
   align-items: center;
+  justify-content: center;
   padding: 24px 0;
   border-top: 1px solid #e5e7eb;
   margin-top: 24px;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
-.pagination-info {
-  .items-info {
-    color: #6b7280;
-    font-size: 14px;
-  }
 }
 
 .pagination-controls {
