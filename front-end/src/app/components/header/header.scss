@@ -17,6 +17,12 @@
   flex: 1;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .title {
   margin: 0 0 10px;
   line-height: 1;
@@ -43,6 +49,18 @@
 
 .header-actions {
   flex-shrink: 0;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
 }
 
 .create-post-btn {
@@ -102,9 +120,9 @@
     font-size: 0.75rem;
   }
 
-  .create-post-btn {
-    width: 100%;
-    max-width: 12.5rem;
-    justify-content: center;
-  }
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+
+  .title-row { justify-content: center; }
+  .title-row .mobile-only { margin-right: 0.25rem; }
 }

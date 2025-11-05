@@ -1,4 +1,4 @@
-<article class="product-card">
+<mat-card class="product-card">
   <div class="media">
     <img [src]="product.imageUrl" [alt]="product.name" />
   </div>
@@ -21,9 +21,9 @@
         { In Stock } }
       </span>
       <div class="buttons">
-        <button type="button" class="btn edit" (click)="onEdit()">Edit</button>
-        <button type="button" class="btn delete" (click)="onDelete()">Delete</button>
+        <button type="button" mat-stroked-button (click)="onEdit()">Edit</button>
+        <button type="button" mat-stroked-button color="warn" (click)="onDelete()">Delete</button>
       </div>
     </div>
   </div>
-</article>
+</mat-card>

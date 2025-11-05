@@ -2,19 +2,38 @@
   <div class="container">
     <div class="header-content">
       <div class="title-section">
-        <h1 class="title">
-          <span class="sub">Product Catalog</span>
-          <span class="main">Manage Your Products</span>
-        </h1>
+        <div class="title-row">
+          <button class="mobile-only" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open menu">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <h1 class="title">
+            <span class="sub">Product Catalog</span>
+            <span class="main">Manage Your Products</span>
+          </h1>
+        </div>
         <p class="tagline">Browse, search, edit, and export your inventory.</p>
       </div>
-      <div class="header-actions">
-        <button class="create-post-btn" (click)="createPost()">
-          <span class="plus-icon">+</span>
+      <div class="header-actions desktop-only">
+        <button mat-flat-button color="primary" (click)="createPost()">
+          <mat-icon>add</mat-icon>
           Add Product
         </button>
-        <button class="export-btn" (click)="exportXlsx()">Export XLSX</button>
+        <button mat-stroked-button (click)="exportXlsx()">
+          <mat-icon>download</mat-icon>
+          Export XLSX
+        </button>
       </div>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="createPost()">
+          <mat-icon>add</mat-icon>
+          <span>Add Product</span>
+        </button>
+        <button mat-menu-item (click)="exportXlsx()">
+          <mat-icon>download</mat-icon>
+          <span>Export XLSX</span>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </header>

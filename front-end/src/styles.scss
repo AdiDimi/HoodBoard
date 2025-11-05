@@ -1,4 +1,5 @@
 /* Global styles */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @layer reset, base, components, utilities;
 
 @layer reset {
@@ -38,9 +39,10 @@
     padding-inline: 1rem;
   }
   .toolbar {
-    background: #fff7ea;
-    border-block: 0.0625rem solid #ffe1b3; /* 1px */
+    background: #fff;
+    border-block: 0.0625rem solid #e5e7eb; /* 1px */
     padding: 0.75rem 0; /* 12px */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 }
 

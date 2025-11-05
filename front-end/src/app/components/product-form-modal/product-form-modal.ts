@@ -8,6 +8,11 @@ import {
   signal,
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Product } from '../../models/generated/models/product';
 import { ProductsService } from '../../models/generated/api/products.service';
 import { CreateProductDto } from '../../models/generated/models/createProductDto';
@@ -16,7 +21,14 @@ import { UpdateProductDto } from '../../models/generated/models/updateProductDto
 @Component({
   selector: 'app-product-form-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './product-form-modal.html',
   styleUrl: './product-form-modal.scss',
 })

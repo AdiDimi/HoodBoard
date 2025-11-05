@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../../models/generated/models/product';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })

@@ -2,45 +2,55 @@
   <div class="modal">
     <header class="modal__header">
       <h2>{{ title }}</h2>
-      <button type="button" class="icon" (click)="close.emit()">✕</button>
+      <button type="button" mat-icon-button (click)="close.emit()">
+        <mat-icon>close</mat-icon>
+      </button>
     </header>
     <form class="form" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row">
-        <label>Name</label>
-        <input type="text" formControlName="name" />
-        @if (form.controls.name.touched && form.controls.name.errors?.['required']) {
-        <small class="error">Name is required</small>
-        }
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-hint align="end">Required</mat-hint>
+          <mat-error *ngIf="form.controls.name.touched && form.controls.name.errors?.['required']"
+            >Name is required</mat-error
+          >
+        </mat-form-field>
       </div>
+
       <div class="row">
-        <label>Description</label>
-        <textarea rows="3" formControlName="description"></textarea>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="3" formControlName="description"></textarea>
+        </mat-form-field>
       </div>
+
       <div class="row grid-2">
-        <div>
-          <label>Price</label>
-          <input type="number" step="0.01" formControlName="price" />
-          @if (form.controls.price.touched && form.controls.price.errors) {
-          <small class="error">Price must be greater than 0</small>
-          }
-        </div>
-        <div>
-          <label>Stock</label>
-          <input type="number" formControlName="stock" />
-          @if (form.controls.stock.touched && form.controls.stock.errors) {
-          <small class="error">Stock can't be negative</small>
-          }
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" step="0.01" formControlName="price" />
+          <mat-error *ngIf="form.controls.price.touched && form.controls.price.errors"
+            >Price must be greater than 0</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Stock</mat-label>
+          <input matInput type="number" formControlName="stock" />
+          <mat-error *ngIf="form.controls.stock.touched && form.controls.stock.errors"
+            >Stock can't be negative</mat-error
+          >
+        </mat-form-field>
       </div>
+
       <div class="row grid-2">
-        <div>
-          <label>Category</label>
-          <input type="text" formControlName="category" />
-        </div>
-        <div>
-          <label>Image URL</label>
-          <input type="url" formControlName="imageUrl" />
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <input matInput type="text" formControlName="category" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Image URL</mat-label>
+          <input matInput type="url" formControlName="imageUrl" />
+        </mat-form-field>
       </div>
 
       @if (error()) {
@@ -48,8 +58,13 @@
       }
 
       <footer class="actions">
-        <button type="button" class="btn" (click)="close.emit()">Cancel</button>
-        <button type="submit" class="btn primary" [disabled]="submitting() || form.invalid">
+        <button type="button" mat-stroked-button (click)="close.emit()">Cancel</button>
+        <button
+          type="submit"
+          mat-flat-button
+          color="primary"
+          [disabled]="submitting() || form.invalid"
+        >
           {{ submitting() ? (product ? 'Saving…' : 'Creating…') : product ? 'Save' : 'Create' }}
         </button>
       </footer>
