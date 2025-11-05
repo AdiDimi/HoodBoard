@@ -22,8 +22,7 @@
 </section>
 
 <div class="container results-info">
-  Showing {{ products().length }} of {{ totalItems() }} products
-  
+  Showing {{ (products() || []).length }} of {{ totalItems() }} products
 </div>
 
 @if (loading()) {

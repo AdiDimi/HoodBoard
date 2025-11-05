@@ -13,7 +13,10 @@ export const apiHeadersInterceptor: HttpInterceptorFn = (req, next) => {
   let modifiedRequest = req;
 
   // Add Content-Type: application/json if request has body and no explicit Content-Type
-  if (req.body && !req.headers.has('Content-Type')) {
+  // Skip for FormData (multipart) or Blob uploads so the browser sets proper boundaries
+  const isFormData = typeof FormData !== 'undefined' && req.body instanceof FormData;
+  const isBlob = typeof Blob !== 'undefined' && req.body instanceof Blob;
+  if (req.body && !req.headers.has('Content-Type') && !isFormData && !isBlob) {
     modifiedRequest = modifiedRequest.clone({
       setHeaders: {
         'Content-Type': 'application/json',
@@ -25,10 +28,7 @@ export const apiHeadersInterceptor: HttpInterceptorFn = (req, next) => {
   if (isStateChanging && !req.headers.has('Idempotency-Key')) {
     const idempotencyKey = generateIdempotencyKey();
     modifiedRequest = modifiedRequest.clone({
-      setHeaders: {
-        ...modifiedRequest.headers,
-        'Idempotency-Key': idempotencyKey,
-      },
+      headers: modifiedRequest.headers.set('Idempotency-Key', idempotencyKey),
     });
   }
 

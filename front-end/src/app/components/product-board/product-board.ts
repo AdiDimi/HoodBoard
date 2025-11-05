@@ -67,7 +67,10 @@ export class ProductBoardComponent {
     this.productsSvc
       .apiProductsGet({ q, category: apiCategory, sort, page: pageNum, pageSize: this.pageSize })
       .subscribe({
-        next: (res: { data?: Product[] | null; meta?: { total?: number; page?: number; pageSize?: number } | null; }) => {
+        next: (res: {
+          data?: Product[] | null;
+          meta?: { total?: number; page?: number; pageSize?: number } | null;
+        }) => {
           let data = res.data ?? [];
           const qstr = (this.query() || '').toLowerCase().trim();
           if (qstr) {

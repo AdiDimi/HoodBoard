@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../../models/generated/models/product';
+import { Photo } from '../../models/generated/models/photo';
 
 @Component({
   selector: 'app-product-card',
@@ -29,9 +30,12 @@ export class ProductCardComponent {
   }
 
   get imgUrl(): string {
-    const imageUrl = 'https://' + (this.product.imageUrl ?? '');
-    return imageUrl;
+    const direct = 'http://localhost:8080/uploads/thumbs/' + (this.product.id ?? '1') + '.jpg';
+    if (direct) return direct;
+
+    return '';
   }
+
   get stockStatus(): 'low' | 'in' | 'out' {
     const stock = this.product.stock ?? 0;
     if (stock <= 0) return 'out';

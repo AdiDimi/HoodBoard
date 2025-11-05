@@ -31,10 +31,7 @@ export const httpCachingInterceptor: HttpInterceptorFn = (req, next) => {
     const cachedETag = etagCache.getETag(url);
     if (cachedETag) {
       modifiedRequest = modifiedRequest.clone({
-        setHeaders: {
-          ...modifiedRequest.headers,
-          'If-None-Match': cachedETag,
-        },
+        headers: modifiedRequest.headers.set('If-None-Match', cachedETag),
       });
     }
   } else if (method === 'PUT') {
@@ -42,10 +39,7 @@ export const httpCachingInterceptor: HttpInterceptorFn = (req, next) => {
     const cachedETag = etagCache.getETag(url);
     if (cachedETag) {
       modifiedRequest = modifiedRequest.clone({
-        setHeaders: {
-          ...modifiedRequest.headers,
-          'If-Match': cachedETag,
-        },
+        headers: modifiedRequest.headers.set('If-Match', cachedETag),
       });
     }
   }

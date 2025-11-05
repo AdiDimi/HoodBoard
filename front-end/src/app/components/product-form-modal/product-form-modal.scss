@@ -61,6 +61,19 @@ select {
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
 }
+.file-input {
+  display: grid;
+  gap: 0.25rem;
+}
+.file-input .file-label {
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+}
+.file-input .file-hint {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
 .error {
   color: #b91c1c;
   font-size: 0.875rem;

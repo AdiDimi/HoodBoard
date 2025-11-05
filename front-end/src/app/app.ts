@@ -5,10 +5,22 @@ import { ProductBoardComponent } from './components/product-board/product-board'
 import { ProductFormModalComponent } from './components/product-form-modal/product-form-modal';
 import { ProductsService } from './models/generated/api/products.service';
 import { Product } from './models/generated/models/product';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogData,
+} from './components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, SearchBar, ProductBoardComponent, ProductFormModalComponent],
+  imports: [
+    Header,
+    SearchBar,
+    ProductBoardComponent,
+    ProductFormModalComponent,
+    MatDialogModule,
+    ConfirmDialogComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -20,7 +32,7 @@ export class App {
   showCreateForm = signal(false);
   editingProduct = signal<Product | null>(null);
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService, private dialog: MatDialog) {}
 
   get showForm(): boolean {
     const shouldShow = this.showCreateForm() || this.editingProduct() !== null;
@@ -48,12 +60,22 @@ export class App {
   }
 
   onEditProduct(product: Product) {
-    if (product) {
-      this.showCreateForm.set(false);
-      this.editingProduct.set(product);
-    } else {
+    if (!product) {
       console.log('Product not found for editing');
+      return;
     }
+    this.showCreateForm.set(false);
+    // Fetch the latest product to populate form and capture validator header (ETag/NTag)
+    const id = String(product.id);
+    this.productsService.apiProductsIdGet({ id }).subscribe({
+      next: (fresh: Product) => {
+        this.editingProduct.set(fresh);
+      },
+      error: (err: any) => {
+        console.warn('Failed to GET product before edit; falling back to list item', err);
+        this.editingProduct.set(product);
+      },
+    });
   }
 
   onProductCreated(newProd: Product) {
@@ -67,15 +89,27 @@ export class App {
   }
 
   onDeleteProduct(product: Product) {
-    this.productsService.apiProductsIdDelete({ id: String(product.id) }).subscribe({
-      next: () => {
-        this.productBoard.onPageChange(this.productBoard.currentPage());
-      },
-      error: (err: any) => {
-        console.error('Error deleting product:', err);
-        alert('Failed to delete product: ' + (err?.message ?? 'Unknown error'));
-      },
-    });
+    const data: ConfirmDialogData = {
+      title: 'Delete product',
+      message: `Are you sure you want to delete "${product.name}"? This cannot be undone.`,
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+    };
+    this.dialog
+      .open(ConfirmDialogComponent, { data, disableClose: true })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed !== true) return;
+        this.productsService.apiProductsIdDelete({ id: String(product.id) }).subscribe({
+          next: () => {
+            this.productBoard.onPageChange(this.productBoard.currentPage());
+          },
+          error: (err: any) => {
+            console.error('Error deleting product:', err);
+            alert('Failed to delete product: ' + (err?.message ?? 'Unknown error'));
+          },
+        });
+      });
   }
 
   onCancelForm() {

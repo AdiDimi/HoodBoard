@@ -47,10 +47,20 @@
           <mat-label>Category</mat-label>
           <input matInput type="text" formControlName="category" />
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Image URL</mat-label>
-          <input matInput type="url" formControlName="imageUrl" />
-        </mat-form-field>
+
+        <div class="file-input">
+          <label for="photos" class="file-label">Upload image(s)</label>
+          <input
+            id="photos"
+            type="file"
+            multiple
+            accept="image/*"
+            (change)="onFilesSelected($event)"
+          />
+          <div class="file-hint" *ngIf="selectedFiles && selectedFiles.length">
+            {{ selectedFiles.length }} file(s) selected
+          </div>
+        </div>
       </div>
 
       @if (error()) {
