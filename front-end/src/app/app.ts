@@ -1,4 +1,5 @@
 import { Component, signal, ViewChild } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { Header } from './components/header/header';
 import { SearchBar } from './components/search-bar/search-bar';
 import { ProductBoardComponent } from './components/product-board/product-board';
@@ -118,17 +119,43 @@ export class App {
   }
 
   exportXlsx() {
+    // Backend now returns CSV. Request response so we can access headers and filename.
     this.productsService
-      .apiProductsExportGet('body', false, {
-        httpHeaderAccept:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' as any,
+      .apiProductsExportGet('response', false, {
+        // Force blob responseType in generated client (anything not text/json becomes 'blob')
+        httpHeaderAccept: 'application/octet-stream' as any,
       })
       .subscribe({
-        next: (blob: Blob) => {
+        next: (resp: HttpResponse<any>) => {
+          let blob: Blob | null = resp.body as Blob;
+          // If generator delivered text due to server headers, wrap as CSV blob
+          if (blob && typeof (blob as any) === 'string') {
+            blob = new Blob([blob as any], { type: 'text/csv;charset=utf-8' });
+          }
+          if (!blob) {
+            // Fallback: create empty CSV to avoid no-op click
+            blob = new Blob([''], { type: 'text/csv;charset=utf-8' });
+          }
+          const cd =
+            resp.headers.get('Content-Disposition') ||
+            resp.headers.get('content-disposition') ||
+            '';
+          let filename = 'products.csv';
+          try {
+            const matchUtf8 = cd.match(/filename\*=UTF-8''([^;]+)/i);
+            const matchSimple = cd.match(/filename="?([^;"]+)"?/i);
+            if (matchUtf8 && matchUtf8[1]) {
+              filename = decodeURIComponent(matchUtf8[1]);
+            } else if (matchSimple && matchSimple[1]) {
+              filename = matchSimple[1];
+            }
+            filename = filename.replace(/['"]/g, '');
+          } catch {}
+
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'products.xlsx';
+          a.download = filename || 'products.csv';
           a.click();
           window.URL.revokeObjectURL(url);
         },
