@@ -82,12 +82,29 @@ public static class ProductsEndpoints
 
         products.MapGet("/export", async (ProductService svc) =>
         {
-            // Export XLSX - implemented in service/repository
-            var stream = await svc.ExportXlsxAsync();
-            return Results.File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "products.xlsx");
+            var stream = await svc.ExportCsvAsync();
+            return Results.File(stream, "text/csv; charset=utf-8", "products.csv");
         })
-        .WithSummary("Export products to XLSX")
+        .WithSummary("Export products as CSV (UTF-8 BOM)")
         .Produces(StatusCodes.Status200OK)
+        .WithOpenApi();
+
+        // Photos upload endpoint (multipart/form-data)
+        products.MapPost("/{id}/photos", async (string id, HttpRequest req, IPhotoService photos, ProductService svc) =>
+        {
+            var form = await req.ReadFormAsync();
+            if (form.Files is null || form.Files.Count == 0)
+                return Results.BadRequest(new { message = "No files were provided." });
+            _ = await photos.SaveAsync(id, form.Files);
+            // Return the updated product so ImageUrl reflects the new file name (productId + extension)
+            var updated = await svc.GetAsync(id);
+            return updated is null ? Results.NotFound() : Results.Ok(updated);
+        })
+        .Accepts<IFormFileCollection>("multipart/form-data")
+        .WithSummary("Upload product image(s)")
+        .Produces<Product>(StatusCodes.Status200OK)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
         return app;
@@ -98,7 +115,7 @@ public static class ProductsEndpoints
     public record ApiResponse<T>(T Data, object? Meta = null, object? Links = null);
 
     public record Query(string? q, string? category, decimal? minPrice, decimal? maxPrice,
-        double? lat, double? lng, double? radiusKm, int page = 1, int pageSize = 20, string? sort = null);
+        double? lat, double? lng, double? radiusKm, int page = 1, int pageSize = 10, string? sort = null);
 }
 
 public static class ResultHeaderExtensions

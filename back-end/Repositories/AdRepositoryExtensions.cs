@@ -15,6 +15,7 @@ public sealed class AdsRepositorySettings
     public int IdempotencyTtlSeconds { get; set; } = 600;
     public bool UseOutboxWriter { get; set; } = true;
     public int OutboxLockTtlSeconds { get; set; } = 30; // TTL for distributed lock when writing json
+    public bool ForceRebuild { get; set; } = false; // If true, clear Redis dataset at startup and reseed from Data
 }
 
 public static class AdRepositoryExtensions
@@ -30,7 +31,6 @@ public static class AdRepositoryExtensions
 
         if (settings.Mode == RepositoryMode.RedisJson)
         {
-            // Try to connect to Redis; if it fails, fall back to in-memory repository so app can run locally without Redis.
             try
             {
                 var mux = ConnectionMultiplexer.Connect(settings.RedisConnection ?? "localhost:6379");
@@ -48,13 +48,11 @@ public static class AdRepositoryExtensions
             }
             catch
             {
-                // fallback to in-memory repository
                 services.AddSingleton<IAdRepository, InMemoryAdRepository>();
             }
         }
         else
         {
-            // In-memory repository for local development/testing
             services.AddSingleton<IAdRepository, InMemoryAdRepository>();
         }
 

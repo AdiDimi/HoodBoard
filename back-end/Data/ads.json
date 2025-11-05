@@ -7,7 +7,7 @@
       "price": 199.99,
       "stock": 12,
       "category": "Electronics",
-      "imageUrl": "https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg"
+      "imageUrl": "11.jpg"
     },
     {
       "id": 2,
@@ -16,7 +16,7 @@
       "price": 349.99,
       "stock": 3,
       "category": "Electronics",
-      "imageUrl": "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg"
+      "imageUrl": "14.jpg"
     },
     {
       "id": 3,
@@ -25,7 +25,7 @@
       "price": 1299.99,
       "stock": 7,
       "category": "Computers",
-      "imageUrl": "https://images.pexels.com/photos/18105/pexels-photo.jpg"
+      "imageUrl": "15.jpg"
     },
     {
       "id": 4,
@@ -34,7 +34,7 @@
       "price": 159.99,
       "stock": 0,
       "category": "Appliances",
-      "imageUrl": "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+      "imageUrl": "13.jpg"
     },
     {
       "id": 5,
@@ -43,16 +43,70 @@
       "price": 79.99,
       "stock": 24,
       "category": "Accessories",
-      "imageUrl": "https://images.pexels.com/photos/374574/pexels-photo-374574.jpeg"
+      "imageUrl": "17.jpg"
     },
     {
       "id": 6,
-      "name": "Running Shoes",
+      "name": "Running Shoes ",
       "description": "Lightweight running shoes with cushioning.",
       "price": 129.99,
       "stock": 15,
       "category": "Footwear",
-      "imageUrl": "https://images.pexels.com/photos/2529159/pexels-photo-2529159.jpeg"
+      "imageUrl": "12.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Wireless Headphones 2",
+      "description": "Over-ear wireless headphones with noise cancellation.",
+      "price": 199.99,
+      "stock": 12,
+      "category": "Electronics",
+      "imageUrl": "11.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Smart Watch Pro 2",
+      "description": "Fitness-focused smart watch with heart-rate tracking.",
+      "price": 349.99,
+      "stock": 3,
+      "category": "Electronics",
+      "imageUrl": "14.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Ultrabook Laptop 2",
+      "description": "Lightweight laptop with retina display.",
+      "price": 1299.99,
+      "stock": 7,
+      "category": "Computers",
+      "imageUrl": "15.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Automatic Coffee Maker",
+      "description": "Programmable espresso machine.",
+      "price": 159.99,
+      "stock": 0,
+      "category": "Appliances 2",
+      "imageUrl": "13.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Travel Backpack 2",
+      "description": "Durable backpack for travel and daily use.",
+      "price": 79.99,
+      "stock": 24,
+      "category": "Accessories",
+      "imageUrl": "17.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Running Shoes 2",
+      "description": "Lightweight running shoes with cushioning.",
+      "price": 129.99,
+      "stock": 15,
+      "category": "Footwear",
+      "imageUrl": "12.jpg"
     }
   ]
 }

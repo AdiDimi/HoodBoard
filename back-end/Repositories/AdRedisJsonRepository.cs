@@ -14,6 +14,7 @@ public sealed class AdRedisJsonRepository : IAdRepository
     private readonly JsonSerializerOptions _json = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = false };
     private readonly LoadedLuaScript _script;
     private readonly int _idemTtl;
+    private readonly bool _forceRebuild;
 
     public AdRedisJsonRepository(IConnectionMultiplexer mux, IOptions<AdsRepositorySettings>? opts = null)
     {
@@ -21,59 +22,44 @@ public sealed class AdRedisJsonRepository : IAdRepository
         var server = mux.GetServer(mux.GetEndPoints().First());
         _script = LuaScript.Prepare(RedisScripts.UpsertJsonWithOutboxAndIdem).Load(server);
         _idemTtl = opts?.Value?.IdempotencyTtlSeconds ?? 600;
-
-        // Accept numeric IDs and convert to string
+        _forceRebuild = opts?.Value?.ForceRebuild ?? false;
         _json.Converters.Add(new StringOrNumberConverter());
     }
 
     public async Task InitializeAsync(CancellationToken ct = default)
     {
+        if (_forceRebuild)
+        {
+            await _db.ExecuteAsync("FLUSHDB");
+        }
+
         if (await _db.SetLengthAsync(_index) == 0)
         {
-            // try products.json first, then fallback to ads.json which may contain products root
             var path1 = Path.Combine(AppContext.BaseDirectory, "Data", "products.json");
             var path2 = Path.Combine(AppContext.BaseDirectory, "Data", "ads.json");
-            string? pathToUse = null;
-            if (File.Exists(path1)) pathToUse = path1;
-            else if (File.Exists(path2)) pathToUse = path2;
+            string? pathToUse = File.Exists(path1) ? path1 : (File.Exists(path2) ? path2 : null);
 
             if (pathToUse != null)
             {
                 using var fs = File.OpenRead(pathToUse);
-                // attempt to deserialize into a flexible root
                 using var doc = await JsonDocument.ParseAsync(fs, cancellationToken: ct);
-                JsonElement root = doc.RootElement;
-                List<Product> products = new();
-                if (root.TryGetProperty("products", out var arr))
+                var root = doc.RootElement;
+                if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("products", out var arr) && arr.ValueKind == JsonValueKind.Array)
                 {
                     foreach (var el in arr.EnumerateArray())
                     {
-                        var json = el.GetRawText();
-                        var p = JsonSerializer.Deserialize<Product>(json, _json);
-                        if (p is not null) products.Add(p);
-                    }
-                }
-                else if (root.TryGetProperty("ads", out var arr2))
-                {
-                    foreach (var el in arr2.EnumerateArray())
-                    {
-                        var json = el.GetRawText();
-                        // try to map old Ad shape to Product where possible
-                        try
+                        var p = JsonSerializer.Deserialize<Product>(el.GetRawText(), _json) ?? new Product();
+                        if (el.TryGetProperty("imageUrl", out var imgEl) && imgEl.ValueKind == JsonValueKind.String)
                         {
-                            var old = JsonSerializer.Deserialize<dynamic>(json, _json);
-                            // best-effort mapping
-                            var p = JsonSerializer.Deserialize<Product>(json, _json);
-                            if (p is not null) products.Add(p);
+                            var url = imgEl.GetString();
+                            if (!string.IsNullOrWhiteSpace(url))
+                            {
+                                p.Photos = new List<Photo> { new Photo(Guid.NewGuid().ToString("N"), "import", url!) };
+                            }
                         }
-                        catch { }
+                        await _db.JsonSetAsync($"products:{p.Id}", "$", JsonSerializer.Serialize(p, _json));
+                        await _db.SetAddAsync(_index, p.Id);
                     }
-                }
-
-                foreach (var product in products)
-                {
-                    await _db.JsonSetAsync($"products:{product.Id}", "$", JsonSerializer.Serialize(product, _json));
-                    await _db.SetAddAsync(_index, product.Id);
                 }
             }
         }
@@ -116,7 +102,7 @@ public sealed class AdRedisJsonRepository : IAdRepository
             Price = dto.Price,
             Stock = dto.Stock
         };
-        if (!string.IsNullOrWhiteSpace(dto.ImageUrl)) product.Photos.Add(new Photo(Guid.NewGuid().ToString("N"), "import", dto.ImageUrl));
+        if (!string.IsNullOrWhiteSpace(dto.ImageUrl)) product.Photos = new List<Photo> { new Photo(Guid.NewGuid().ToString("N"), "import", dto.ImageUrl) };
         await UpsertWithIdemAsync(product, "create");
         return product;
     }
@@ -130,7 +116,7 @@ public sealed class AdRedisJsonRepository : IAdRepository
         product.Category = dto.Category ?? product.Category;
         product.Price = dto.Price ?? product.Price;
         if (dto.Stock is not null) product.Stock = dto.Stock.Value;
-        if (!string.IsNullOrWhiteSpace(dto.ImageUrl)) product.Photos.Insert(0, new Photo(Guid.NewGuid().ToString("N"), "import", dto.ImageUrl));
+        if (!string.IsNullOrWhiteSpace(dto.ImageUrl)) product.Photos = new List<Photo> { new Photo(Guid.NewGuid().ToString("N"), "import", dto.ImageUrl) };
         product.UpdatedAt = DateTimeOffset.UtcNow;
         await UpsertWithIdemAsync(product, "update");
         return true;
@@ -151,7 +137,8 @@ public sealed class AdRedisJsonRepository : IAdRepository
         var product = await GetByIdAsync(productId);
         if (product is null) return null;
         var p = new Photo(Guid.NewGuid().ToString("N"), serverFileName, publicUrl, thumbUrl, largeUrl);
-        product.Photos.Add(p); product.UpdatedAt = DateTimeOffset.UtcNow;
+        product.Photos = new List<Photo> { p }; // replace existing
+        product.UpdatedAt = DateTimeOffset.UtcNow;
         await UpsertWithIdemAsync(product, "photo");
         return p;
     }
@@ -168,6 +155,4 @@ public sealed class AdRedisJsonRepository : IAdRepository
             new RedisValue[] { payload, op, product.Id, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(), _idemTtl }
         );
     }
-
-    private sealed class Root { public List<Product> Products { get; set; } = new(); }
 }
