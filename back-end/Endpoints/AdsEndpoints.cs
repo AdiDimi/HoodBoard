@@ -8,7 +8,7 @@ public static class ProductsEndpoints
     public static IEndpointRouteBuilder MapProductsEndpoints(this IEndpointRouteBuilder app)
     {
         var api = app.MapGroup("/api").WithOpenApi();
-        var products = api.MapGroup("/products").WithTags("Products");
+        var products = api.MapGroup("products").WithTags("Products");
 
         products.MapGet("/", async ([AsParameters] Query query, ProductService svc, HttpResponse res) =>
         {
@@ -106,7 +106,7 @@ public static class ProductsEndpoints
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
-
+   
         return app;
     }
 
